@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import subprocess
 from difflib import unified_diff
 import argparse
 import re
@@ -130,6 +131,22 @@ def get_tests(specfile):
                 headertext = header_re.sub('', line).strip()
     return tests
 
+
+# Hack to generate XML with sourcepos.
+def transform_tests(tests):
+    for t in tests:
+        result = subprocess.run(
+            ["cmark", "--sourcepos", "--to", "xml"],
+            input=t["markdown"],
+            encoding='utf8',
+            capture_output=True,
+            check=True)
+
+        t["xml"] = result.stdout
+
+    return tests
+
+
 if __name__ == "__main__":
     if args.debug_normalization:
         out(normalize_html(sys.stdin.read()))
@@ -142,6 +159,7 @@ if __name__ == "__main__":
         pattern_re = re.compile('.')
     tests = [ test for test in all_tests if re.search(pattern_re, test['section']) and (not args.number or test['example'] == args.number) ]
     if args.dump_tests:
+        tests = transform_tests(tests)
         out(json.dumps(tests, ensure_ascii=False, indent=2))
         exit(0)
     else:
