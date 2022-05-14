@@ -17,6 +17,7 @@ def munge(tc):
     xmlroot = ET.fromstring(tc["xml"])
     tokens = xml_to_tokens(xmlroot, tc["markdown"])
     return {
+        "name": tc["section"].lower().replace(" ", "_") + "_" + str(tc["example"]),
         "markdown": tc["markdown"],
         "tokens": tokens,
     }
@@ -26,10 +27,11 @@ TAG_TO_TOKEN = {
     "{http://commonmark.org/xml/1.0}code_block": "codeblock",
     "{http://commonmark.org/xml/1.0}emph": "emph",
     "{http://commonmark.org/xml/1.0}strong": "strong",
+    "{http://commonmark.org/xml/1.0}heading": "heading",
+    "{http://commonmark.org/xml/1.0}block_quote": "blockquote",
+    "{http://commonmark.org/xml/1.0}link": "link",
     # TODO: lists
-    # TODO: headings
-    # TODO: links
-    # TODO: block quotes
+    # TODO: images
 }
 
 
@@ -57,7 +59,6 @@ def resolve_pos(linecol, markdown):
     line, col = linecol.split(':')
     line = int(line)
     col = int(col)
-
     return sum(len(x) for x in markdown.split('\n')[0:line-1]) + col - 1
 
 
