@@ -2,6 +2,7 @@
 
 import sys
 import json
+import re
 import xml.etree.ElementTree as ET
 
 
@@ -31,9 +32,11 @@ TAG_TO_TOKEN = {
     "{http://commonmark.org/xml/1.0}block_quote": "blockquote",
     "{http://commonmark.org/xml/1.0}link": "link",
     "{http://commonmark.org/xml/1.0}image": "image",
-    # TODO: lists
+    "{http://commonmark.org/xml/1.0}item": "listitem",
 }
 
+list_item_number_re = re.compile("^\d+\.")
+list_item_bullet_re = re.compile("^(-|\*)")
 
 def xml_to_tokens(xmlroot, markdown):
     if xmlroot.tag in TAG_TO_TOKEN:
@@ -42,6 +45,16 @@ def xml_to_tokens(xmlroot, markdown):
         start, end = sourcepos.split('-')
         start_pos = resolve_pos(start, markdown)
         end_pos = resolve_pos(end, markdown) + 1
+
+        if tokentype == "listitem":
+            match = list_item_number_re.search(markdown[start_pos:end_pos])
+            if match is not None:
+                end_pos = start_pos + match.span()[1]
+            else:
+                match = list_item_bullet_re.search(markdown[start_pos:end_pos])
+                if match is not None:
+                    end_pos = start_pos + match.span()[1]
+
         return [{
             "type": tokentype,
             "start": start_pos,
