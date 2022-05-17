@@ -33,6 +33,7 @@ TAG_TO_TOKEN_ROLE = {
     "{http://commonmark.org/xml/1.0}link": "Link",
     "{http://commonmark.org/xml/1.0}image": "Link",
     "{http://commonmark.org/xml/1.0}item": "ListItem",
+    "{http://commonmark.org/xml/1.0}html_block": "HtmlBlock",
 }
 
 list_item_number_re = re.compile("^\d+\.")
