@@ -18,7 +18,7 @@ def munge(tc):
     xmlroot = ET.fromstring(tc["xml"])
     tokens = xml_to_tokens(xmlroot, tc["markdown"])
     return {
-        "name": tc["section"].lower().replace(" ", "_") + "_" + str(tc["example"]),
+        "name": tc["section"].lower()+ " " + str(tc["example"]),
         "markdown": tc["markdown"],
         "tokens": tokens,
     }
