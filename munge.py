@@ -51,12 +51,12 @@ def xml_to_tokens(xmlroot, markdown):
             match = list_item_number_re.search(markdown[start_pos:end_pos])
             if match is not None:
                 end_pos = start_pos + match.span()[1]
-                tokenrole = "NumberListItem"
+                tokenrole = "ListNumber"
             else:
                 match = list_item_bullet_re.search(markdown[start_pos:end_pos])
                 if match is not None:
                     end_pos = start_pos + match.span()[1]
-                    tokenrole = "BulletListItem"
+                    tokenrole = "ListBullet"
 
         return [{
             "role": tokenrole,
