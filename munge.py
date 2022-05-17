@@ -24,39 +24,41 @@ def munge(tc):
     }
 
 
-TAG_TO_TOKEN = {
-    "{http://commonmark.org/xml/1.0}code_block": "codeblock",
-    "{http://commonmark.org/xml/1.0}emph": "emph",
-    "{http://commonmark.org/xml/1.0}strong": "strong",
-    "{http://commonmark.org/xml/1.0}heading": "heading",
-    "{http://commonmark.org/xml/1.0}block_quote": "blockquote",
-    "{http://commonmark.org/xml/1.0}link": "link",
-    "{http://commonmark.org/xml/1.0}image": "image",
-    "{http://commonmark.org/xml/1.0}item": "listitem",
+TAG_TO_TOKEN_ROLE = {
+    "{http://commonmark.org/xml/1.0}code_block": "CodeBlock",
+    "{http://commonmark.org/xml/1.0}emph": "Emphasis",
+    "{http://commonmark.org/xml/1.0}strong": "StrongEmphasis",
+    "{http://commonmark.org/xml/1.0}heading": "Header",
+    "{http://commonmark.org/xml/1.0}block_quote": "BlockQuote",
+    "{http://commonmark.org/xml/1.0}link": "Link",
+    "{http://commonmark.org/xml/1.0}image": "Link",
+    "{http://commonmark.org/xml/1.0}item": "ListItem",
 }
 
 list_item_number_re = re.compile("^\d+\.")
 list_item_bullet_re = re.compile("^(-|\*)")
 
 def xml_to_tokens(xmlroot, markdown):
-    if xmlroot.tag in TAG_TO_TOKEN:
-        tokentype = TAG_TO_TOKEN[xmlroot.tag]
+    if xmlroot.tag in TAG_TO_TOKEN_ROLE:
+        tokenrole = TAG_TO_TOKEN_ROLE[xmlroot.tag]
         sourcepos = xmlroot.attrib['sourcepos']
         start, end = sourcepos.split('-')
         start_pos = resolve_pos(start, markdown)
         end_pos = resolve_pos(end, markdown) + 1
 
-        if tokentype == "listitem":
+        if tokenrole == "ListItem":
             match = list_item_number_re.search(markdown[start_pos:end_pos])
             if match is not None:
                 end_pos = start_pos + match.span()[1]
+                tokenrole = "NumberListItem"
             else:
                 match = list_item_bullet_re.search(markdown[start_pos:end_pos])
                 if match is not None:
                     end_pos = start_pos + match.span()[1]
+                    tokenrole = "BulletListItem"
 
         return [{
-            "type": tokentype,
+            "role": tokenrole,
             "start": start_pos,
             "end": end_pos,
             "text": markdown[start_pos:end_pos],
