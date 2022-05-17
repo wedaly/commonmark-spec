@@ -30,8 +30,8 @@ TAG_TO_TOKEN = {
     "{http://commonmark.org/xml/1.0}heading": "heading",
     "{http://commonmark.org/xml/1.0}block_quote": "blockquote",
     "{http://commonmark.org/xml/1.0}link": "link",
+    "{http://commonmark.org/xml/1.0}image": "image",
     # TODO: lists
-    # TODO: images
 }
 
 
