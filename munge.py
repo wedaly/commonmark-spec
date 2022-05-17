@@ -36,8 +36,8 @@ TAG_TO_TOKEN_ROLE = {
     "{http://commonmark.org/xml/1.0}html_block": "HtmlBlock",
 }
 
-list_item_number_re = re.compile("^\d+\.")
-list_item_bullet_re = re.compile("^(-|\*)")
+list_item_number_re = re.compile("^\d+(\.|\))")
+list_item_bullet_re = re.compile("^(-|\*|\+)")
 
 def xml_to_tokens(xmlroot, markdown):
     if xmlroot.tag in TAG_TO_TOKEN_ROLE:
