@@ -75,7 +75,7 @@ def resolve_pos(linecol, markdown):
     line, col = linecol.split(':')
     line = int(line)
     col = int(col)
-    return sum(len(x) for x in markdown.split('\n')[0:line-1]) + col - 1
+    return sum(len(x) for x in markdown.splitlines(keepends=True)[0:line-1]) + col - 1
 
 
 if __name__ == "__main__":
