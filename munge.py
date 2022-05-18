@@ -17,6 +17,12 @@ def main():
 def munge(tc):
     xmlroot = ET.fromstring(tc["xml"])
     tokens = xml_to_tokens(xmlroot, tc["markdown"])
+
+    if "link reference" in tc["section"].lower():
+        tokens.extend(link_ref_tokens(tc["markdown"]))
+
+    tokens.sort(key=lambda x: x["start"])
+
     return {
         "name": tc["section"].lower()+ " " + str(tc["example"]),
         "markdown": tc["markdown"],
@@ -34,10 +40,12 @@ TAG_TO_TOKEN_ROLE = {
     "{http://commonmark.org/xml/1.0}image": "Link",
     "{http://commonmark.org/xml/1.0}item": "ListItem",
     "{http://commonmark.org/xml/1.0}html_block": "HtmlBlock",
+    "{http://commonmark.org/xml/1.0}thematic_break": "ThematicBreak",
 }
 
 list_item_number_re = re.compile("^\d+(\.|\))")
 list_item_bullet_re = re.compile("^(-|\*|\+)")
+link_ref_re = re.compile("^[ ]{0,3}\[.+\]:.*$")
 
 def xml_to_tokens(xmlroot, markdown):
     if xmlroot.tag in TAG_TO_TOKEN_ROLE:
@@ -69,6 +77,23 @@ def xml_to_tokens(xmlroot, markdown):
         for child in xmlroot:
             tokens.extend(xml_to_tokens(child, markdown))
         return tokens
+
+
+def link_ref_tokens(markdown):
+    tokens = []
+    start = 0
+    for line in markdown.splitlines(keepends=True):
+        match = link_ref_re.match(line)
+        if match is not None:
+            end = start + len(line)
+            tokens.append({
+                "role": "LinkRef",
+                "start": start,
+                "end": end,
+                "text": markdown[start:end],
+            })
+        start += len(line)
+    return tokens
 
 
 def resolve_pos(linecol, markdown):
