@@ -34,7 +34,7 @@ TAG_TO_TOKEN_ROLE = {
     "{http://commonmark.org/xml/1.0}code_block": "CodeBlock",
     "{http://commonmark.org/xml/1.0}emph": "Emphasis",
     "{http://commonmark.org/xml/1.0}strong": "StrongEmphasis",
-    "{http://commonmark.org/xml/1.0}heading": "Header",
+    "{http://commonmark.org/xml/1.0}heading": "Heading",
     "{http://commonmark.org/xml/1.0}block_quote": "BlockQuote",
     "{http://commonmark.org/xml/1.0}link": "Link",
     "{http://commonmark.org/xml/1.0}image": "Link",
