@@ -15,6 +15,9 @@ def main():
 
 
 def munge(tc):
+    if tc["markdown"].endswith('\n'):
+        tc["markdown"] = tc["markdown"][:-1]
+
     xmlroot = ET.fromstring(tc["xml"])
     tokens = xml_to_tokens(xmlroot, tc["markdown"])
 
