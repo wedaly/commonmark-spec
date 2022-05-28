@@ -35,6 +35,7 @@ def munge(tc):
 
 TAG_TO_TOKEN_ROLE = {
     "{http://commonmark.org/xml/1.0}code_block": "CodeBlock",
+    "{http://commonmark.org/xml/1.0}code": "CodeSpan",
     "{http://commonmark.org/xml/1.0}emph": "Emphasis",
     "{http://commonmark.org/xml/1.0}strong": "StrongEmphasis",
     "{http://commonmark.org/xml/1.0}heading": "Heading",
