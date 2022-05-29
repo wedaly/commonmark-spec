@@ -95,11 +95,13 @@ def xml_to_tokens(xmlroot, markdown):
                     start_pos -= 1
                 else:
                     break
+
             while end_pos < len(markdown):
-                if markdown[end_pos] != '\n':
+                if markdown[end_pos-1] != '\n':
                     end_pos += 1
                 else:
                     break
+
 
         return [{
             "role": tokenrole,
