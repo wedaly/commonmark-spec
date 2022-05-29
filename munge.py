@@ -5,26 +5,18 @@ import json
 import re
 import xml.etree.ElementTree as ET
 
-ENABLED = set([
-    62,
-    63,
-    64,
-    65,
-    66,
-    67,
-    68,
-    # 69,
-    70,
-    71,
-    72,
-    73,
-    74,
-    75,
-    76,
-    # 77,
-    78,
-    79,
+ENABLED_SECTIONS = set([
+    "ATX headings",
+    "Setext headings",
 ])
+
+SKIPPED_EXAMPLES = set([
+    69,
+    77,
+])
+
+def is_skipped(tc):
+    return tc["section"] not in ENABLED_SECTIONS or tc["example"] in SKIPPED_EXAMPLES
 
 
 def main():
@@ -51,7 +43,7 @@ def munge(tc):
         "name": tc["section"].lower()+ " " + str(tc["example"]),
         "markdown": tc["markdown"],
         "tokens": tokens,
-        "skip": tc["example"] not in ENABLED,
+        "skip": is_skipped(tc),
     }
 
 
