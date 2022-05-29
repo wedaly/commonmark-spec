@@ -30,6 +30,7 @@ def munge(tc):
         "name": tc["section"].lower()+ " " + str(tc["example"]),
         "markdown": tc["markdown"],
         "tokens": tokens,
+        "skip": True,
     }
 
 
@@ -69,6 +70,18 @@ def xml_to_tokens(xmlroot, markdown):
                 if match is not None:
                     end_pos = start_pos + match.span()[1]
                     tokenrole = "ListBullet"
+        elif tokenrole == "CodeSpan":
+            while start_pos > 0:
+                if markdown[start_pos-1] == '`':
+                    start_pos -= 1
+                else:
+                    break
+
+            while end_pos < len(markdown):
+                if markdown[end_pos] == '`':
+                    end_pos += 1
+                else:
+                    break
 
         return [{
             "role": tokenrole,
