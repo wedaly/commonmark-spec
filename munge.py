@@ -13,6 +13,19 @@ ENABLED_SECTIONS = set([
 SKIPPED_EXAMPLES = set([
     69,
     77,
+    85,
+    88,
+    91,
+    92,
+    93,
+    94,
+    96,
+    98,
+    99,
+    100,
+    101,
+    104,
+    105,
 ])
 
 def is_skipped(tc):
