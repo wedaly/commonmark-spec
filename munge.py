@@ -9,12 +9,15 @@ ENABLED_SECTIONS = set([
     "ATX headings",
     "Setext headings",
     "Fenced code blocks",
+    "List items",
 ])
 
 SKIPPED_EXAMPLES = set([
     69,
+    70,
     77,
     85,
+    87,
     88,
     91,
     92,
@@ -35,6 +38,10 @@ SKIPPED_EXAMPLES = set([
     140,
     141,
     145,
+    253,
+    257,
+    259,
+    260,
 ])
 
 def is_skipped(tc):
