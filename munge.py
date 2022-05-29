@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 ENABLED_SECTIONS = set([
     "ATX headings",
     "Setext headings",
+    "Fenced code blocks",
 ])
 
 SKIPPED_EXAMPLES = set([
@@ -26,6 +27,14 @@ SKIPPED_EXAMPLES = set([
     101,
     104,
     105,
+    121,
+    128,
+    134,
+    137,
+    138,
+    140,
+    141,
+    145,
 ])
 
 def is_skipped(tc):
