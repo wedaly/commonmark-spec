@@ -82,6 +82,24 @@ def xml_to_tokens(xmlroot, markdown):
                     end_pos += 1
                 else:
                     break
+        elif tokenrole == "CodeBlock":
+            while start_pos > 0:
+                if markdown[start_pos-1] == ' ' or markdown[start_pos-1] == '\t':
+                    start_pos -= 1
+                else:
+                    break
+
+        elif tokenrole == "Heading":
+            while start_pos > 0:
+                if markdown[start_pos-1] == ' ' or markdown[start_pos-1] == '\t':
+                    start_pos -= 1
+                else:
+                    break
+            while end_pos < len(markdown):
+                if markdown[end_pos] != '\n':
+                    end_pos += 1
+                else:
+                    break
 
         return [{
             "role": tokenrole,
