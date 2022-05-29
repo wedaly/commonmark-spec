@@ -5,6 +5,10 @@ import json
 import re
 import xml.etree.ElementTree as ET
 
+ENABLED = set([
+    62,
+])
+
 
 def main():
     results = []
@@ -30,7 +34,7 @@ def munge(tc):
         "name": tc["section"].lower()+ " " + str(tc["example"]),
         "markdown": tc["markdown"],
         "tokens": tokens,
-        "skip": True,
+        "skip": tc["example"] not in ENABLED,
     }
 
 
