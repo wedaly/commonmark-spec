@@ -6,10 +6,12 @@ import re
 import xml.etree.ElementTree as ET
 
 NOT_IMPLEMENTED_SECTIONS = set([
+    "Tabs",
     "Entity and numeric character references",
     "HTML blocks",
     "Raw HTML",
     "Autolinks",
+    "Indented code blocks",
 ])
 
 DEVIATE_REASON = "intentional deviation from spec"
