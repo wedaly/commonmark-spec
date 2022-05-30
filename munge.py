@@ -6,6 +6,7 @@ import re
 import xml.etree.ElementTree as ET
 
 ENABLED_SECTIONS = set([
+    "Thematic breaks",
     "ATX headings",
     "Setext headings",
     "Fenced code blocks",
@@ -144,6 +145,7 @@ def xml_to_tokens(xmlroot, markdown):
                 if match is not None:
                     end_pos = start_pos + match.span()[1]
                     tokenrole = "ListBullet"
+
         elif tokenrole == "CodeSpan":
             while start_pos > 0:
                 if markdown[start_pos-1] == '`':
@@ -176,6 +178,9 @@ def xml_to_tokens(xmlroot, markdown):
                 else:
                     break
 
+        elif tokenrole == "ThematicBreak":
+            if end_pos < len(markdown) and markdown[end_pos] == '\n':
+                end_pos += 1
 
         return [{
             "role": tokenrole,
