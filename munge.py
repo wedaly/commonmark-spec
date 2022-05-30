@@ -16,6 +16,7 @@ ENABLED_SECTIONS = set([
 
 DEVIATE_REASON = "intentional deviation from spec"
 TEST_WRONG_REASON = "test case is incorrect"
+UNSUPPORTED_REASON = "contains unsupported block type"
 
 SKIPPED_EXAMPLES = {
     48: DEVIATE_REASON,
@@ -24,6 +25,14 @@ SKIPPED_EXAMPLES = {
     61: DEVIATE_REASON,
     69: DEVIATE_REASON,
     70: DEVIATE_REASON,
+    85: DEVIATE_REASON,
+    87: DEVIATE_REASON,
+    91: DEVIATE_REASON,
+    92: DEVIATE_REASON,
+    92: UNSUPPORTED_REASON,
+    93: UNSUPPORTED_REASON,
+    100: UNSUPPORTED_REASON,
+    101: UNSUPPORTED_REASON,
 }
 
 
@@ -137,7 +146,7 @@ def xml_to_tokens(xmlroot, markdown):
                 else:
                     break
 
-            if end_pos < len(markdown) and markdown[end_pos] == '\n':
+            if end_pos < len(markdown) and markdown[end_pos-1] != '\n' and markdown[end_pos] == '\n':
                 end_pos += 1
 
         return [{
