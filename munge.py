@@ -14,71 +14,8 @@ ENABLED_SECTIONS = set([
     "List items",
 ])
 
-SKIPPED_EXAMPLES = set([
-    69,
-    70,
-    77,
-    85,
-    87,
-    88,
-    91,
-    92,
-    93,
-    94,
-    96,
-    98,
-    99,
-    100,
-    101,
-    104,
-    105,
-    121,
-    128,
-    134,
-    137,
-    138,
-    140,
-    141,
-    145,
-    253,
-    257,
-    259,
-    260,
-    263,
-    266,
-    272,
-    278,
-    280,
-    281,
-    283,
-    284,
-    289,
-    292,
-    293,
-    294,
-    296,
-    297,
-    298,
-    299,
-    304,
-    307,
-    308,
-    309,
-    312,
-    313,
-    315,
-    317,
-    318,
-    319,
-    321,
-    323,
-    324,
-    325,
-    326,
-])
-
-def is_skipped(tc):
-    return tc["section"] not in ENABLED_SECTIONS or tc["example"] in SKIPPED_EXAMPLES
+SKIPPED_EXAMPLES = {
+}
 
 
 def main():
@@ -101,12 +38,18 @@ def munge(tc):
 
     tokens.sort(key=lambda x: x["start"])
 
-    return {
+    output = {
         "name": tc["section"].lower()+ " " + str(tc["example"]),
         "markdown": tc["markdown"],
         "tokens": tokens,
-        "skip": is_skipped(tc),
     }
+
+    if tc["section"] not in ENABLED_SECTIONS:
+        output["skipReason"] = "not implemented"
+    elif tc["example"] in SKIPPED_EXAMPLES:
+        output["skipReason"] = SKIPPED_EXAMPLES[tc["example"]]
+
+    return output
 
 
 TAG_TO_TOKEN_ROLE = {
