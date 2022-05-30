@@ -222,9 +222,7 @@ def munge(tc):
 
     xmlroot = ET.fromstring(tc["xml"])
     tokens = xml_to_tokens(xmlroot, tc["markdown"])
-
-    if "link reference" in tc["section"].lower():
-        tokens.extend(link_ref_tokens(tc["markdown"]))
+    tokens.extend(link_ref_tokens(tc["markdown"]))
 
     tokens.sort(key=lambda x: x["start"])
 
@@ -258,7 +256,7 @@ TAG_TO_TOKEN_ROLE = {
 
 list_item_number_re = re.compile("^\d+(\.|\))")
 list_item_bullet_re = re.compile("^(-|\*|\+)")
-link_ref_re = re.compile("^[ ]{0,3}\[.+\]:.*$")
+link_ref_re = re.compile("^[ ]{0,3}(\[.+\]):.*$")
 
 def xml_to_tokens(xmlroot, markdown):
     if xmlroot.tag in TAG_TO_TOKEN_ROLE:
@@ -349,12 +347,13 @@ def link_ref_tokens(markdown):
     for line in markdown.splitlines(keepends=True):
         match = link_ref_re.match(line)
         if match is not None:
-            end = start + len(line)
+            tokstart = start + match.span(1)[0]
+            tokend = start + match.span(1)[1]
             tokens.append({
-                "role": "LinkRef",
-                "start": start,
-                "end": end,
-                "text": markdown[start:end],
+                "role": "Link",
+                "start": tokstart,
+                "end": tokend,
+                "text": markdown[tokstart:tokend],
             })
         start += len(line)
     return tokens
