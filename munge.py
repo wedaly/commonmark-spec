@@ -12,6 +12,8 @@ NOT_IMPLEMENTED_SECTIONS = set([
     "Raw HTML",
     "Autolinks",
     "Indented code blocks",
+    "Link reference definitions",
+    "Block quotes",
 ])
 
 DEVIATE_REASON = "intentional deviation from spec"
@@ -41,6 +43,7 @@ SKIPPED_EXAMPLES = {
     138: DEVIATE_REASON,
     141: DEVIATE_REASON,
     145: DEVIATE_REASON,
+    225: UNSUPPORTED_REASON,
     253: UNSUPPORTED_REASON,
     254: UNSUPPORTED_REASON,
     257: DEVIATE_REASON,
@@ -76,6 +79,10 @@ SKIPPED_EXAMPLES = {
     317: DEVIATE_REASON,
     318: TEST_WRONG_REASON,
     324: TEST_WRONG_REASON,
+    342: DEVIATE_REASON,
+    344: UNSUPPORTED_REASON,
+    346: UNSUPPORTED_REASON,
+    347: DEVIATE_REASON,
 }
 
 
