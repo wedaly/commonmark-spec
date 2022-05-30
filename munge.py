@@ -31,8 +31,11 @@ SKIPPED_EXAMPLES = {
     92: DEVIATE_REASON,
     92: UNSUPPORTED_REASON,
     93: UNSUPPORTED_REASON,
+    96: TEST_WRONG_REASON,
     100: UNSUPPORTED_REASON,
     101: UNSUPPORTED_REASON,
+    128: UNSUPPORTED_REASON,
+    138: DEVIATE_REASON,
 }
 
 
@@ -125,6 +128,8 @@ def xml_to_tokens(xmlroot, markdown):
                     start_pos -= 1
                 else:
                     break
+            if end_pos < len(markdown) and markdown[end_pos-1] != '\n' and markdown[end_pos] == '\n':
+                end_pos += 1
 
         elif tokenrole == "Heading":
             while start_pos > 0:
