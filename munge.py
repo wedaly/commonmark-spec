@@ -36,6 +36,25 @@ SKIPPED_EXAMPLES = {
     101: UNSUPPORTED_REASON,
     128: UNSUPPORTED_REASON,
     138: DEVIATE_REASON,
+    141: DEVIATE_REASON,
+    145: DEVIATE_REASON,
+    253: UNSUPPORTED_REASON,
+    257: DEVIATE_REASON,
+    259: UNSUPPORTED_REASON,
+    260: UNSUPPORTED_REASON,
+    263: UNSUPPORTED_REASON,
+    266: DEVIATE_REASON,
+    272: UNSUPPORTED_REASON,
+    278: DEVIATE_REASON,
+    280: DEVIATE_REASON,
+    281: DEVIATE_REASON,
+    283: DEVIATE_REASON,
+    284: DEVIATE_REASON,
+    289: DEVIATE_REASON,
+    293: UNSUPPORTED_REASON,
+    # 294: TEST_WRONG_REASON,
+    296: DEVIATE_REASON,
+    # 298: TEST_WRONG_REASON,
 }
 
 
@@ -154,12 +173,19 @@ def xml_to_tokens(xmlroot, markdown):
             if end_pos < len(markdown) and markdown[end_pos-1] != '\n' and markdown[end_pos] == '\n':
                 end_pos += 1
 
-        return [{
+        tokens = [{
             "role": tokenrole,
             "start": start_pos,
             "end": end_pos,
             "text": markdown[start_pos:end_pos],
         }]
+
+        if tokenrole.startswith("List"):
+            for child in xmlroot:
+                tokens.extend(xml_to_tokens(child, markdown))
+
+        return tokens
+
     else:
         tokens = []
         for child in xmlroot:
