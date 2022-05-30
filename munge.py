@@ -5,13 +5,11 @@ import json
 import re
 import xml.etree.ElementTree as ET
 
-ENABLED_SECTIONS = set([
-    "Thematic breaks",
-    "ATX headings",
-    "Setext headings",
-    "Fenced code blocks",
-    "Lists",
-    "List items",
+NOT_IMPLEMENTED_SECTIONS = set([
+    "Entity and numeric character references",
+    "HTML blocks",
+    "Raw HTML",
+    "Autolinks",
 ])
 
 DEVIATE_REASON = "intentional deviation from spec"
@@ -102,7 +100,7 @@ def munge(tc):
         "tokens": tokens,
     }
 
-    if tc["section"] not in ENABLED_SECTIONS:
+    if tc["section"] in NOT_IMPLEMENTED_SECTIONS:
         output["skipReason"] = "not implemented"
     elif tc["example"] in SKIPPED_EXAMPLES:
         output["skipReason"] = SKIPPED_EXAMPLES[tc["example"]]
