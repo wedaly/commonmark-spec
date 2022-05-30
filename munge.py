@@ -179,6 +179,12 @@ def xml_to_tokens(xmlroot, markdown):
                     break
 
         elif tokenrole == "ThematicBreak":
+            while start_pos > 0:
+                if markdown[start_pos-1] == ' ' or markdown[start_pos-1] == '\t':
+                    start_pos -= 1
+                else:
+                    break
+
             if end_pos < len(markdown) and markdown[end_pos] == '\n':
                 end_pos += 1
 
