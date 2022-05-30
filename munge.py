@@ -14,7 +14,16 @@ ENABLED_SECTIONS = set([
     "List items",
 ])
 
+DEVIATE_REASON = "intentional deviation from spec"
+TEST_WRONG_REASON = "test case is incorrect"
+
 SKIPPED_EXAMPLES = {
+    48: DEVIATE_REASON,
+    49: DEVIATE_REASON,
+    59: TEST_WRONG_REASON,
+    61: DEVIATE_REASON,
+    69: DEVIATE_REASON,
+    70: DEVIATE_REASON,
 }
 
 
